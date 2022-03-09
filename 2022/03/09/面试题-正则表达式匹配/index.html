@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>面试题 正则表达式匹配 | LeTATLe&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="description" itemprop="description" content="在2022腾讯IEG魔方工作室笔试二面中碰到类似的[题目]([44. 通配符匹配 - 力扣（LeetCode） (leetcode-cn.com)](https://leetcode-cn.com/problems/wildcard-matching/)),很不幸递推式没有写对且缺乏对细节的把握然后挂掉了（悲），立誓要搞清楚。">
+  
+  
+  
+  <link rel="stylesheet" href="../../../../css/style.css">
+  
+    <link rel="stylesheet" href="../../../../fancybox/jquery.fancybox-1.3.4.css">
+  
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div id="nav-outer">
+  <nav id="main-nav" class="outer">
+    <a id="main-nav-toggle" class="nav-icon"></a>
+    
+      <a class="main-nav-link" href="../../../../index.html">Home</a>
+    
+      <a class="main-nav-link" href="../../../../archives">Archives</a>
+    
+      <a class="main-nav-link" href="../../../../about">About</a>
+    
+    <div class="main-nav-space-between"></div>
+    
+  </nav>
+</div>
+<div id="header-title">
+  <h1 id="logo-wrap">
+    <a href="../../../../index.html" id="logo">LeTATLe&#39;s blog</a>
+  </h1>
+  
+</div>
+
+      <div id="content" class="outer">
+        <section id="main"><article id="post-面试题-正则表达式匹配" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time class="dt-published" datetime="2022-03-09T06:00:26.000Z" itemprop="datePublished">2022-03-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      面试题 正则表达式匹配
+    </h1>
+  
+
+      </header>
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在2022腾讯IEG魔方工作室笔试二面中碰到类似的[题目](<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/wildcard-matching/">44. 通配符匹配 - 力扣<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>LeetCode<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char></span> (leetcode-cn.com)</a>),很不幸递推式没有写对且缺乏对细节的把握然后挂掉了<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>悲<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>立誓要搞清楚<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<span id="more"></span>
+<h1 id="题目描述">题目描述</h1>
+<p>[来源](<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/">面试题19. 正则表达式匹配 - 力扣<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>LeetCode<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char></span> (leetcode-cn.com)</a>)</p>
+<p>请实现一个函数用来匹配包含<code>'. '</code>和<code>'*'</code>的正则表达式<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>模式中的字符<code>'.'</code>表示任意一个字符<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>而<code>'*'</code>表示它前面的字符可以出现任意次<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>含0次<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>在本题中<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>匹配是指字符串的所有字符匹配整个模式<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>例如<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>字符串<code>&quot;aaa&quot;</code>与模式<code>&quot;a.a&quot;</code>和<code>&quot;ab*ac*a&quot;</code>匹配<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>但与<code>&quot;aa.a&quot;</code>和<code>&quot;ab*a&quot;</code>均不匹配<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<h1 id="解题思路">解题思路</h1>
+<p>本题使用动态规划求解<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>对于题述中的字符串<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们可以找到四种典型的情景<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<ul>
+<li><code>s = aa</code> ,<code>p = ab</code> 两个字符串第一位均为相同字符a<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>故可以进行第二位的比较<span class="bd-box"><h-char class="bd bd-beg"><h-inner>；</h-inner></h-char></span>但第二位上a与b并不相同<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>故结果为不匹配<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+<li><code>s = .a</code>, <code>p = ca</code> 由于<code>'.'</code>为 通配符<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>故我们可以认为两串第一位相等<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>而后进行下一次比较<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+<li><code>a*c</code>, <code>c</code> 由于<code>'*'</code>代表其前面的字符可以出现0次或无数次<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>故可以认为<code>a*</code>并没有出现<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>而比较下一位<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+<li><code>a*</code>, <code>aaaaa</code> 由于<code>'*'</code>代表其前面的字符可以出现0次或无数次<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>故可以认为<code>a*</code>等价于<code>aaaaa</code><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>完成匹配<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+</ul>
+<p>记<span class="markdown-them-math-inline">$s$</span>取前<span class="markdown-them-math-inline">$i$</span>位<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$p$</span>取前<span class="markdown-them-math-inline">$j$</span>位时<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>两子串是否匹配为<span class="markdown-them-math-inline">$dp[i][j]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>根据以上情景进行递推<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<ul>
+<li>
+<p>定义 <span class="markdown-them-math-inline">$char1 \ \ matches \ \ char2: char1 ==char2 \ \ or \ \ char1 == '.' \ \ or \ \ char2 =='.' $</span></p>
+</li>
+<li>
+<p>若 <span class="markdown-them-math-inline">$p[j] == '*'$</span>, 此时我们需要根据<span class="markdown-them-math-inline">$'*'$</span>之前的字符来判断是否采用这个<span class="markdown-them-math-inline">$'*'$</span></p>
+<ul>
+<li>若<span class="markdown-them-math-inline">$p[j-1] \ \ matches \ \ s[i]$</span> <span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 则我们可以决定是否选取这个<span class="markdown-them-math-inline">$'*'$</span>以及选取多少
+<ul>
+<li>假设<span class="markdown-them-math-inline">$'*'$</span>代表只选取一次<span class="markdown-them-math-inline">$p[j-1]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么由于<span class="markdown-them-math-inline">$p[j]$</span>的前一位就是<span class="markdown-them-math-inline">$p[j-1]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么此时<span class="markdown-them-math-inline">$dp[i][j] = dp[i][j-1]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+<li>假设<span class="markdown-them-math-inline">$'*'$</span>代表选取<span class="markdown-them-math-inline">$p[j-1]$</span>一次以上<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>由于<span class="markdown-them-math-inline">$'*'$</span>是可以多次匹配的<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>可以视作不动<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>而s串的第i位字符被&quot;吃掉了&quot;<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么此时<span class="markdown-them-math-inline">$dp[i][j] = dp[i-1][j]$</span></li>
+<li><span class="markdown-them-math-inline">$else$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们不能使用这个<span class="markdown-them-math-inline">$'*'$</span>进行额外的匹配<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>只能视其为<span class="bd-box"><h-char class="bd bd-end"><h-inner>“</h-inner></h-char></span>出现零次<span class="bd-box"><h-char class="bd bd-beg"><h-inner>”</h-inner></h-char><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>即状态取决于两位之前的字符:<span class="markdown-them-math-inline">$dp[i][j] = dp[i][j-2]$</span></li>
+</ul>
+</li>
+<li><span class="markdown-them-math-inline">$else$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们不能使用这个<span class="markdown-them-math-inline">$'*'$</span>进行额外的匹配<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>只能视其为<span class="bd-box"><h-char class="bd bd-end"><h-inner>“</h-inner></h-char></span>出现零次<span class="bd-box"><h-char class="bd bd-beg"><h-inner>”</h-inner></h-char><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>同上</li>
+</ul>
+</li>
+<li>
+<p>若<span class="markdown-them-math-inline">$p[j] \ \ matches \ \ s[i] $</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么此时由于本位匹配成果<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>两串的匹配状态由<span class="markdown-them-math-inline">$dp[i-1][j-1]$</span>决定<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+</li>
+</ul>
+<p>综上我们可以得到状态转移方程</p>
+<div class="markdown-them-math-block">$$f(x)=\left\{
+\begin{aligned}
+dp[i][j] &amp; =  dp[i-1][j-1], p[j] \ \ matches \ \ s[i] \\
+dp[i][j] &amp; =  dp[i][j-2] \ \ || \ \ flag , \ \ else \\ 
+flag &amp; = f(x)=\left\{
+\begin{aligned}
+&amp; false , p[j-1] != s[i]  \\
+&amp; dp[i-1][j] \ \ || \ \ dp[i][j-1] \ \ , else  \\ 
+\end{aligned}
+\right.
+\end{aligned}
+\right.
+$$</div><h1 id="代码实现">代码实现</h1>
+<div class="highlight"><pre class="code"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-comment">// dp[i][j] = dp[i][j-2] | flag   , p[j] = &#x27;*&#x27; </span>
+        <span class="hljs-comment">// flag = dp[i-1][j] | dp[i][j-1], p[j-1] matches s[i]</span>
+        <span class="hljs-comment">// flag = false, else</span>
+    <span class="hljs-comment">// dp[i][j] = dp[i-1][j-1] , p[j] matches s[i]</span>
+    <span class="hljs-comment">// dp[i][j] = false, else</span>
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isMatch</span><span class="hljs-params">(string s, string p)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> m = s.<span class="hljs-built_in">size</span>();
+        <span class="hljs-keyword">int</span> n = p.<span class="hljs-built_in">size</span>();
+        vector&lt;vector&lt;<span class="hljs-keyword">bool</span>&gt;&gt; <span class="hljs-built_in">dp</span>(m+<span class="hljs-number">1</span>, vector&lt;<span class="hljs-keyword">bool</span>&gt;(n+<span class="hljs-number">1</span>));
+        dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n;) &#123;
+            <span class="hljs-keyword">if</span> (p[i<span class="hljs-number">-1</span>] != <span class="hljs-string">&#x27;*&#x27;</span> &amp;&amp; p[i] == <span class="hljs-string">&#x27;*&#x27;</span>) &#123;
+                dp[<span class="hljs-number">0</span>][i+<span class="hljs-number">1</span>] = <span class="hljs-literal">true</span>;
+                i += <span class="hljs-number">2</span>;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j++) &#123;
+                
+                <span class="hljs-keyword">if</span> (p[j<span class="hljs-number">-1</span>] == <span class="hljs-string">&#x27;*&#x27;</span>) &#123;
+                    <span class="hljs-keyword">bool</span> flag;
+                    <span class="hljs-keyword">if</span> (p[j<span class="hljs-number">-2</span>] == <span class="hljs-string">&#x27;.&#x27;</span> || p[j<span class="hljs-number">-2</span>] == s[i<span class="hljs-number">-1</span>]) &#123;
+                        flag = dp[i<span class="hljs-number">-1</span>][j] | dp[i][j<span class="hljs-number">-1</span>]; 
+                    &#125; <span class="hljs-keyword">else</span> &#123;
+                        flag = <span class="hljs-literal">false</span>;
+                    &#125;
+                    dp[i][j] = dp[i][j<span class="hljs-number">-2</span>] |  flag;
+                &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p[j<span class="hljs-number">-1</span>] == <span class="hljs-string">&#x27;.&#x27;</span> || p[j<span class="hljs-number">-1</span>] == s[i<span class="hljs-number">-1</span>]) &#123;
+                    dp[i][j] = dp[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>];
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> dp[m][n];
+    &#125;
+&#125;;
+</code></pre></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../08/%E7%AC%AC%E4%B8%80%E7%AF%87blog%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82022%E6%98%A5%E5%A4%A9/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Viejo</strong>
+      <div class="article-nav-title">
+        
+          第一篇blog——写在2022春天
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+    <aside id="sidebar" class="outer">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Posts recientes</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">面试题 正则表达式匹配</a>
+          </li>
+        
+          <li>
+            <a href="../../08/%E7%AC%AC%E4%B8%80%E7%AF%87blog%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82022%E6%98%A5%E5%A4%A9/">第一篇blog——写在2022春天</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nube de Tags</h3>
+    <div class="widget tagcloud">
+      <a href="../../../../tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;">动态规划</a> <a href="../../../../tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a>
+    </div>
+  </div>
+
+  
+</aside>
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../../../archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="../../../../about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+<script src="../../../../js/clipboard.min.js"></script>
+<script src="../../../../js/jquery-1.4.3.min.js"></script>
+
+<script src="../../../../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+
+
+<script src="../../../../js/script.js"></script>
+
+
+
+
+
+
+<script>
+  MathJax = {
+    options: {
+      enableMenu: false
+    },
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    }
+  };
+</script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+    CommonHTML: {
+      linebreaks: false
+    }
+  });
+  </script> -->
+<script type="text/javascript" id="MathJax-script" async
+  src="../../../../mathjax/tex-chtml.js">
+</script>
+<!-- <script type="text/javascript"
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_CHTML">
+</script> -->
+
+
+
+  </div>
+</body>
+</html>
