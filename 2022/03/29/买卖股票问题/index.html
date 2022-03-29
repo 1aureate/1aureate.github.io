@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>买卖股票问题 | LeTATLe&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="description" content="对于这个问题总是理解不够深刻，写一篇blog用自己的语言描述一遍试试吧。">
+  
+  
+  
+  <link rel="stylesheet" href="../../../../css/style.css">
+  
+    <link rel="stylesheet" href="../../../../fancybox/jquery.fancybox-1.3.4.css">
+  
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div id="nav-outer">
+  <nav id="main-nav" class="outer">
+    <a id="main-nav-toggle" class="nav-icon"></a>
+    
+      <a class="main-nav-link" href="../../../../index.html">Home</a>
+    
+      <a class="main-nav-link" href="../../../../archives">Archives</a>
+    
+      <a class="main-nav-link" href="../../../../about">About</a>
+    
+    <div class="main-nav-space-between"></div>
+    
+  </nav>
+</div>
+<div id="header-title">
+  <h1 id="logo-wrap">
+    <a href="../../../../index.html" id="logo">LeTATLe&#39;s blog</a>
+  </h1>
+  
+</div>
+
+      <div id="content" class="outer">
+        <section id="main"><article id="post-买卖股票问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time class="dt-published" datetime="2022-03-29T05:59:56.000Z" itemprop="datePublished">2022-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      买卖股票问题
+    </h1>
+  
+
+      </header>
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>对于这个问题总是理解不够深刻<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>写一篇blog用自己的语言描述一遍试试吧<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<span id="more"></span>
+<h2 id="买卖股票的最佳时机-ⅰ">买卖股票的最佳时机 Ⅰ</h2>
+<h3 id="题目描述">题目描述</h3>
+<p>给定一个数组 <code>prices</code> <span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>你只能选择 <strong>某一天</strong> 买入这只股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>设计一个算法来计算你所能获取的最大利润<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>返回你可以从这笔交易中获取的最大利润<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>如果你不能获取任何利润<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>返回 <code>0</code> <span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<h3 id="解题思路">解题思路</h3>
+<p>注意到只能买卖一次<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>所以其实不难想到是遍历所有日子的股票价格<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>并在遍历中维护已遍历日期买入价值的最小值<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>同时使用当前遍历到的日期作为出售日<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>将出售日股票价格与之前日子中的最小值作差<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>并不断与之前保存的最大利润对比<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>取其中最大值<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>事实上<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>若记前 <span class="markdown-them-math-inline">$i$</span> 天的最大收益为<span class="markdown-them-math-inline">$dp[i]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>记第 <span class="markdown-them-math-inline">$i$</span> 天的股票价格为<span class="markdown-them-math-inline">$p[i]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>前 <span class="markdown-them-math-inline">$i-1$</span> 天中最小成本为<span class="markdown-them-math-inline">$minP[i]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>对于上述自然语言<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们可以形式化地抽象为<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<p><span class="markdown-them-math-inline">$dp[i] = max\{ dp[i-1], p[i] - minP[i]\}$</span></p>
+<p>而 <span class="markdown-them-math-inline">$minP[i] = min\{ p[i], minP[i-1]  \}$</span></p>
+<p>不难发现<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>无论是 <span class="markdown-them-math-inline">$dp$</span> 还是 <span class="markdown-them-math-inline">$minP$</span> 都只与其前一项有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>因此可以使用一个变量对其进行空间优化<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>故最终的表达式可以写为:</p>
+<p><span class="markdown-them-math-inline">$maxProfit = max \{ maxProfit, p[i]- minP \}$</span></p>
+<p><span class="markdown-them-math-inline">$minP =  min \{ p[i], minP  \}$</span></p>
+<h3 id="代码实现">代码实现</h3>
+<div class="highlight"><pre class="code"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; prices)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-comment">// 前i天的最大收益 = max &#123;i-1天的最大收益, 第i天价格 - 前i-1天中最小成本&#125;</span>
+        <span class="hljs-keyword">int</span> mini = prices[<span class="hljs-number">0</span>];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; prices.<span class="hljs-built_in">size</span>(); i++) &#123;
+            ans = <span class="hljs-built_in">max</span>(ans, prices[i]-mini);
+            mini = <span class="hljs-built_in">min</span>(mini, prices[i]);
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;
+</code></pre></div>
+<h3 id="复杂度分析">复杂度分析</h3>
+<p>时间复杂度<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>O(n)</p>
+<p>空间复杂度<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>O(1)</p>
+<h2 id="买卖股票的最佳时机-ⅱ">买卖股票的最佳时机 Ⅱ</h2>
+<h3 id="题目描述-1">题目描述</h3>
+<p>给定一个数组 <code>prices</code> <span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>其中 <code>prices[i]</code> 表示股票第 <code>i</code> 天的价格<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>在<strong>每一天</strong><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>你可能会决定购买和/或出售股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>你在任何时候 <code>最多</code> 只能持有 <code>一股</code> 股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>你也可以购买它<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>然后在 <code>同一天</code> 出售<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span><br>
+返回 你能获得的 <code>最大</code> 利润 <span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<h3 id="解题思路-1">解题思路</h3>
+<p>可以看出<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>相较于第一题<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>本题放开了买卖股票的次数限制<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>也就是说我们可以多次买入卖出股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>但是任何时候最多只能持有这一股股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>可以对状态进行标记<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>记第 <span class="markdown-them-math-inline">$i$</span> 天持有股票时<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>前 <span class="markdown-them-math-inline">$i$</span> 天的最大收益为 <span class="markdown-them-math-inline">$Profit[i][1]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>第 <span class="markdown-them-math-inline">$i$</span> 天不持有股票时<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>前 <span class="markdown-them-math-inline">$i$</span> 天的最大收益为 <span class="markdown-them-math-inline">$Profit[i][0]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>；</h-inner></h-char></span>记第 <span class="markdown-them-math-inline">$i$</span> 天的股票价格为 <span class="markdown-them-math-inline">$price[i]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>如果第 <span class="markdown-them-math-inline">$i$</span> 天我们未持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么我们第 <span class="markdown-them-math-inline">$i-1$</span> 天可能的情况有<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>不考虑边界情况<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<ol>
+<li>第 <span class="markdown-them-math-inline">$i-1$</span> 天卖出了股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>此时收益为当日股票价格<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$Profit[i][0] = Proft[i-1][1] + price[i]$</span></li>
+<li>第 <span class="markdown-them-math-inline">$i-1$</span> 天既没有持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>又没有买入股票</li>
+</ol>
+<p>如果第 <span class="markdown-them-math-inline">$i$</span> 天我们持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么第 <span class="markdown-them-math-inline">$i-1$</span> 天可能的情况有<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<ol>
+<li>第 <span class="markdown-them-math-inline">$i-1$</span> 天买入了股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>此时收益为当日股票价格的相反数<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> <span class="markdown-them-math-inline">$Profit[i][1] = Profit[i-1][0] - price[i]$</span></li>
+<li>第 <span class="markdown-them-math-inline">$i-1$</span> 天就持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>而且没有在第 <span class="markdown-them-math-inline">$i-1$</span> 天卖出股票</li>
+</ol>
+<p>综上我们可以得到状态转移方程<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<div class="markdown-them-math-block">$$\left\{
+\begin{aligned}
+dp[i][0] &amp;= max(dp[i-1][0], dp[i-1][1] + price[i]) \\
+dp[i][1] &amp;= max(dp[i-1][0] - price[i], dp[i-1][1]) \\
+\end{aligned}
+\right.
+$$</div><p>同样的<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>由于 <span class="markdown-them-math-inline">$dp[i][0], dp[i][1]$</span> 都是只与前一个状态有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>因此我们也可以使用临时变量对空间进行优化<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<div class="markdown-them-math-block">$$&amp;buy  = max (buy', sell' + price[i]) \\
+&amp;sell = max (buy'-price[i], sell') \\
+&amp;buy' = buy \\
+&amp;sell' = sell
+$$</div><h3 id="代码实现-1">代码实现</h3>
+<div class="highlight"><pre class="code"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; prices)</span> </span>&#123;
+        <span class="hljs-comment">// dp[i][0] = max(dp[i-1][1]+price[i], dp[i-1][0])</span>
+        <span class="hljs-comment">// dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i]);</span>
+        <span class="hljs-comment">// a = max(b&#x27;+price[i], a&#x27;);</span>
+        <span class="hljs-comment">// b = max(b&#x27;;, a&#x27;-prices[i]);</span>
+        <span class="hljs-keyword">int</span> a0 = <span class="hljs-number">0</span>, a1, b0 = -prices[<span class="hljs-number">0</span>], b1;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; prices.<span class="hljs-built_in">size</span>(); i++) &#123;
+            a1 = <span class="hljs-built_in">max</span>(b0+prices[i], a0);
+            b1 = <span class="hljs-built_in">max</span>(b0, a0-prices[i]);
+            a0 = a1;
+            b0 = b1;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>(a0,b0);
+    &#125; 
+&#125;;
+</code></pre></div>
+<h3 id="复杂度分析-1">复杂度分析</h3>
+<p>时间复杂度<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>O(n)</p>
+<p>空间复杂度<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>O(1)</p>
+<h2 id="买卖股票的最佳时机-ⅲ">买卖股票的最佳时机 Ⅲ</h2>
+<h3 id="题目描述-2">题目描述</h3>
+<p>给定一个数组<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>它的第 <code>i</code> 个元素是一支给定的股票在第 <code>i</code> 天的价格<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>设计一个算法来计算你所能获取的最大利润<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>你最多可以完成 <strong>两笔</strong> 交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>**注意<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>**你不能同时参与多笔交易<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>你必须在再次购买前出售掉之前的股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<h3 id="解题思路-2">解题思路</h3>
+<p>这个版本和前一个版本的最大区别就是限制了我们最多只能完成 <strong>两笔</strong> 交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>其他与 Ⅱ 并没有区别<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>如何限制交易次数呢<span class="bd-box"><h-char class="bd bd-beg"><h-inner>？</h-inner></h-char></span></p>
+<p>最简单的想法就是为 <span class="markdown-them-math-inline">$dp$</span> 数组增加状态<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不如记 第 <span class="markdown-them-math-inline">$i$</span> 天持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>买卖了 <span class="markdown-them-math-inline">$k$</span> 次股票后的前 <span class="markdown-them-math-inline">$i$</span> 天最大利润为 <span class="markdown-them-math-inline">$profit[i][1][k]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>；</h-inner></h-char></span>第 <span class="markdown-them-math-inline">$i$</span> 天不持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>买卖了 <span class="markdown-them-math-inline">$k$</span> 次股票后的前 <span class="markdown-them-math-inline">$i$</span> 天最大利润为 <span class="markdown-them-math-inline">$profit[i][0][k]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>如果第 <span class="markdown-them-math-inline">$i$</span> 天<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们已经买卖了 <span class="markdown-them-math-inline">$k$</span> 次股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>且当前手上不持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>考虑前一天的状态<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<ol>
+<li>如果 <span class="markdown-them-math-inline">$k \lt 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们具有进行交易的权利
+<ol>
+<li>前一天持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>第 <span class="markdown-them-math-inline">$i$</span> 天卖出手上的股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>收益为当日股票价格<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$profit[i][0][k+1] = profit[i-1][1][k] + price[i]$</span></li>
+<li>前一天也不持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>同时也不买入股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$profit[i][0][k] = profit[i-1][0][k]$</span></li>
+</ol>
+</li>
+<li>如果 <span class="markdown-them-math-inline">$k = 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么我们已经完成了交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不需要再操作<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+</ol>
+<p>如果第 <span class="markdown-them-math-inline">$i$</span> 天<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们已经买卖了 <span class="markdown-them-math-inline">$k$</span> 次股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>且当前手上持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>考虑前一天的状态<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<ol>
+<li>如果 <span class="markdown-them-math-inline">$k \lt 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们具有进行交易的权利
+<ol>
+<li>前一天不持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>在第 <span class="markdown-them-math-inline">$i$</span> 天买入股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>收益为当日股票价格的相反数<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$profit[i][1][k] = profit[i-1][0][k] - price[i]$</span></li>
+<li>前一天就持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>同时也卖出股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$profit[i][1][k] = profit[i-1][1][k]$</span></li>
+</ol>
+</li>
+<li>如果 <span class="markdown-them-math-inline">$k = 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么我们已经完成了交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不需要再操作<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+</ol>
+<p>综上<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>状态转移表达式可以被描述为以下形式<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<div class="markdown-them-math-block">$$profit[i][0][0] &amp;= profit[i-1][0][0] \\ 
+profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
+profit[i][0][2] &amp;= max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
+profit[i][1][0] &amp;= max(profit[i-1][1][0], profit[i-1][0][0]-price[i]) \\
+profit[i][1][1] &amp;= max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
+$$</div><p>其中<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>第一行必然为 0<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>既不买入<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>也没有卖出<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 因此不用计算<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>第二<span class="bd-box"><h-char class="bd bd-beg"><h-inner>、</h-inner></h-char></span>三行可以看作为卖出操作</p>
+<p>第四<span class="bd-box"><h-char class="bd bd-beg"><h-inner>、</h-inner></h-char></span>五行可以看作为买入操作</p>
+<p>可以发现同样每一项 <span class="markdown-them-math-inline">$profit[i]$</span> 都只与前一项有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>因此也可以使用临时变量进行优化</p>
+<div class="markdown-them-math-block">$$sell1 &amp;= max(buy1'+price[i], sell1') \\
+sell2 &amp;= max(buy2'+price[i], sell2') \\
+buy1 &amp;= max(buy1', -price[i]) \\
+buy2 &amp;= max(buy2', sell1'-price[i]) \\
+sell1' &amp;= sell1 \\
+sell2' &amp;= sell2 \\
+buy1' &amp;= buy1 \\
+buy2' &amp;= buy2 \\
+$$</div><p>但由于 <span class="markdown-them-math-inline">$buy1$</span> 只与自己上一时刻的状态有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>因此可以使用一个变量来更新其变化<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>而 <span class="markdown-them-math-inline">$sell1$</span> 除了与自身前一个状态有关以外<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>还与 <span class="markdown-them-math-inline">$buy1$</span> 的值有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那需不需要因此为 <span class="markdown-them-math-inline">$buy1$</span> 开辟一个变量呢<span class="bd-box"><h-char class="bd bd-beg"><h-inner>？</h-inner></h-char></span></p>
+<p>答案是不用<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>我们不妨假设在第 <span class="markdown-them-math-inline">$i$</span> 天时<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> <span class="markdown-them-math-inline">$sell1$</span> 中的 <span class="markdown-them-math-inline">$buy1$</span> 取的是第 <span class="markdown-them-math-inline">$i$</span> 天的值<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>也就是说 <span class="markdown-them-math-inline">$buy1' &lt; -price[i]$</span> 并且 <span class="markdown-them-math-inline">$sell1$</span> 表示在 第 <span class="markdown-them-math-inline">$i$</span> 天将手中的股票进行第一次交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>那么此次的收益显然为0<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>是没有意义的<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不会影响结果<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>所以我们可以进一步对上述方程优化<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<div class="markdown-them-math-block">$$buy1 &amp;= max(buy1, -price[i]) \\
+sell1 &amp;= max(buy1+price[i], sell1) \\
+buy2 &amp;= max(buy2, sell1-price[i]) \\
+sell2 &amp;= max(buy2+price[i], sell2) \\
+$$</div><h3 id="代码实现-2">代码实现</h3>
+<div class="highlight"><pre class="code"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; prices)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> n = prices.<span class="hljs-built_in">size</span>();
+        <span class="hljs-keyword">int</span> buy1 = -prices[<span class="hljs-number">0</span>], sell1 = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> buy2 = -prices[<span class="hljs-number">0</span>], sell2 = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; n; ++i) &#123;
+            buy1 = <span class="hljs-built_in">max</span>(buy1, -prices[i]);
+            sell1 = <span class="hljs-built_in">max</span>(sell1, buy1 + prices[i]);
+            buy2 = <span class="hljs-built_in">max</span>(buy2, sell1 - prices[i]);
+            sell2 = <span class="hljs-built_in">max</span>(sell2, buy2 + prices[i]);
+        &#125;
+        <span class="hljs-keyword">return</span> sell2;
+    &#125;
+&#125;;
+</code></pre></div>
+<h3 id="复杂度分析-2">复杂度分析</h3>
+<p>时间复杂度<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>O(n)</p>
+<p>空间复杂度<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>O(1)</p>
+<h2 id="买卖股票的最佳时机-ⅳ">买卖股票的最佳时机 Ⅳ</h2>
+<h3 id="题目描述-3">题目描述</h3>
+<p>给定一个整数数组 <code>prices</code> <span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>它的第<code>i</code>个元素 <code>prices[i]</code> 是一支给定的股票在第<code>i</code>天的价格<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>设计一个算法来计算你所能获取的最大利润<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>你最多可以完成 <code>k</code> 笔交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>注意<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>你不能同时参与多笔交易<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>你必须在再次购买前出售掉之前的股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<h3 id="解题思路-3">解题思路</h3>
+<p>实际上<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们在 Ⅲ 中已经将问题推广到了交易次数为 <span class="markdown-them-math-inline">$k$</span> 的情况<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<blockquote>
+<p>如何限制交易次数呢<span class="bd-box"><h-char class="bd bd-beg"><h-inner>？</h-inner></h-char></span></p>
+<p>最简单的想法就是为 <span class="markdown-them-math-inline">$dp$</span> 数组增加状态<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不如记 第 <span class="markdown-them-math-inline">$i$</span> 天持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>买卖了 <span class="markdown-them-math-inline">$k$</span> 次股票后的前 <span class="markdown-them-math-inline">$i$</span> 天最大利润为 <span class="markdown-them-math-inline">$profit[i][1][k]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>；</h-inner></h-char></span>第 <span class="markdown-them-math-inline">$i$</span> 天不持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>买卖了 <span class="markdown-them-math-inline">$k$</span> 次股票后的前 <span class="markdown-them-math-inline">$i$</span> 天最大利润为 <span class="markdown-them-math-inline">$profit[i][0][k]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>如果第 <span class="markdown-them-math-inline">$i$</span> 天<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们已经买卖了 <span class="markdown-them-math-inline">$k$</span> 次股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>且当前手上不持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>考虑前一天的状态<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<ol>
+<li>如果 <span class="markdown-them-math-inline">$k \lt 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们具有进行交易的权利</li>
+<li>前一天持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>第 <span class="markdown-them-math-inline">$i$</span> 天卖出手上的股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>收益为当日股票价格<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$profit[i][0][k+1] = profit[i-1][1][k] + price[i]$</span></li>
+<li>前一天也不持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>同时也不买入股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$profit[i][0][k] = profit[i-1][0][k]$</span></li>
+<li>如果 <span class="markdown-them-math-inline">$k = 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么我们已经完成了交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不需要再操作<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+</ol>
+<p>如果第 <span class="markdown-them-math-inline">$i$</span> 天<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们已经买卖了 <span class="markdown-them-math-inline">$k$</span> 次股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>且当前手上持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>考虑前一天的状态<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<ol>
+<li>如果 <span class="markdown-them-math-inline">$k \lt 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>我们具有进行交易的权利</li>
+<li>前一天不持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>在第 <span class="markdown-them-math-inline">$i$</span> 天买入股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>收益为当日股票价格的相反数<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$profit[i][1][k] = profit[i-1][0][k] - price[i]$</span></li>
+<li>前一天就持有股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>同时也卖出股票<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span><span class="markdown-them-math-inline">$profit[i][1][k] = profit[i-1][1][k]$</span></li>
+<li>如果 <span class="markdown-them-math-inline">$k = 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么我们已经完成了交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不需要再操作<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
+</ol>
+</blockquote>
+<p>根据以上<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>当k=3可推出<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<div class="markdown-them-math-block">$$profit[i][0][0] &amp;= profit[i-1][0][0] \\ 
+profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
+profit[i][0][2] &amp;= max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
+profit[i][0][3] &amp;= max(profit[i-1][1][2] + price[i], profit[i-1][0][3]) \\
+profit[i][1][0] &amp;= max(profit[i-1][1][0], profit[i-1][0][0]-price[i]) \\
+profit[i][1][1] &amp;= max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
+profit[i][1][2] &amp;= max(profit[i-1][1][2], profit[i-1][0][2]-price[i]) \\
+$$</div><p>k = 4<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
+<div class="markdown-them-math-block">$$profit[i][0][0] &amp;= profit[i-1][0][0] \\ 
+profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
+profit[i][0][2] &amp;= max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
+profit[i][0][3] &amp;= max(profit[i-1][1][2] + price[i], profit[i-1][0][3]) \\
+profit[i][0][4] &amp;= max(profit[i-1][1][3] + price[i], profit[i-1][0][4]) \\
+profit[i][1][0] &amp;= max(profit[i-1][1][0], profit[i-1][0][0]-price[i]) \\
+profit[i][1][1] &amp;= max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
+profit[i][1][2] &amp;= max(profit[i-1][1][2], profit[i-1][0][2]-price[i]) \\
+profit[i][1][3] &amp;= max(profit[i-1][1][3], profit[i-1][0][3]-price[i]) \\
+$$</div><p>k = n:</p>
+<div class="markdown-them-math-block">$$profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
+profit[i][0][2] &amp;= max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
+profit[i][0][3] &amp;= max(profit[i-1][1][2] + price[i], profit[i-1][0][3]) \\
+... \\
+profit[i][0][n] &amp;= max(profit[i-1][1][n-1] + price[i], profit[i-1][0][n]) \\
+
+&amp;||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\\
+
+profit[i][1][0] &amp;= max(profit[i-1][1][0], profit[i-1][0][0]-price[i]) \\
+profit[i][1][1] &amp;= max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
+profit[i][1][2] &amp;= max(profit[i-1][1][2], profit[i-1][0][2]-price[i]) \\
+... \\
+profit[i][1][n-1] &amp;= max(profit[i-1][1][n-1], profit[i-1][0][n-1]-price[i]) \\
+$$</div><p>根据规律<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不妨称上面一半的变量为 <span class="markdown-them-math-inline">$sell[i][j]$</span> <span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 下面一半的代码为 <span class="markdown-them-math-inline">$buy[i][j]$</span> <span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>首先被 <span class="markdown-them-math-inline">$i$</span> 标定天数<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 其次被 <span class="markdown-them-math-inline">$j$</span> 标定交易次数<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char></span></p>
+<p>记 前 <span class="markdown-them-math-inline">$i$</span> 天 卖了 <span class="markdown-them-math-inline">$j$</span>  次 受伤不持有股票的最大利润为 <span class="markdown-them-math-inline">$sell[i][j]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 前 <span class="markdown-them-math-inline">$i$</span> 天 卖了 <span class="markdown-them-math-inline">$j$</span>  次但手上持有股票 的最大利润为 <span class="markdown-them-math-inline">$buy[i][j]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
+<p>那么进一步可以得到:</p>
+<div class="markdown-them-math-block">$$buy[i][j] &amp;= max (buy[i-1][j], sell[i-1][j]-price[i]) \\
+sell[i][j] &amp;= max (sell[i-1][j], buy[i-1][j-1]+price[i])
+$$</div><h3 id="代码实现-3">代码实现</h3>
+<p>细节引自[leetcode](<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/solution/mai-mai-gu-piao-de-zui-jia-shi-ji-iv-by-8xtkp/">买卖股票的最佳时机 IV - 买卖股票的最佳时机 IV - 力扣<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>LeetCode<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char></span> (leetcode-cn.com)</a>)</p>
+<blockquote>
+<div class="markdown-them-math-block">$$最后需要注意的是&lt;span class=&quot;bd-box&quot;&gt;&lt;h-char class=&quot;bd bd-beg&quot;&gt;&lt;h-inner&gt;，&lt;/h-inner&gt;&lt;/h-char&gt;&lt;/span&gt;本题中 k 的最大值可以达到 10^9
+&lt;span class=&quot;bd-box&quot;&gt;&lt;h-char class=&quot;bd bd-beg&quot;&gt;&lt;h-inner&gt;，&lt;/h-inner&gt;&lt;/h-char&gt;&lt;/span&gt;然而这是毫无意义的 \\ 因为 n 天最多只能进行 \lfloor \frac{n}{2} \rfloor 笔交易&lt;span class=&quot;bd-box&quot;&gt;&lt;h-char class=&quot;bd bd-beg&quot;&gt;&lt;h-inner&gt;，&lt;/h-inner&gt;&lt;/h-char&gt;&lt;/span&gt;其中 \lfloor x \rfloor 表示对 x 向下取整&lt;span class=&quot;bd-box&quot;&gt;&lt;h-char class=&quot;bd bd-beg&quot;&gt;&lt;h-inner&gt;。&lt;/h-inner&gt;&lt;/h-char&gt;&lt;/span&gt; \\ 因此我们可以将 k 对 \lfloor \frac{n}{2} \rfloor取较小值之后再进行动态规划&lt;span class=&quot;bd-box&quot;&gt;&lt;h-char class=&quot;bd bd-beg&quot;&gt;&lt;h-inner&gt;。&lt;/h-inner&gt;&lt;/h-char&gt;&lt;/span&gt;
+$$</div></blockquote>
+<div class="highlight"><pre class="code"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProfit</span><span class="hljs-params">(<span class="hljs-keyword">int</span> k, vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; prices)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (prices.<span class="hljs-built_in">empty</span>()) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+
+        <span class="hljs-keyword">int</span> n = prices.<span class="hljs-built_in">size</span>();
+        k = <span class="hljs-built_in">min</span>(k, n / <span class="hljs-number">2</span>);
+        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">buy</span>(n, vector&lt;<span class="hljs-keyword">int</span>&gt;(k + <span class="hljs-number">1</span>));
+        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">sell</span>(n, vector&lt;<span class="hljs-keyword">int</span>&gt;(k + <span class="hljs-number">1</span>));
+
+        buy[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = -prices[<span class="hljs-number">0</span>];
+        sell[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= k; ++i) &#123;
+            buy[<span class="hljs-number">0</span>][i] = sell[<span class="hljs-number">0</span>][i] = INT_MIN / <span class="hljs-number">2</span>;
+        &#125;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; n; ++i) &#123;
+            buy[i][<span class="hljs-number">0</span>] = <span class="hljs-built_in">max</span>(buy[i - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>], sell[i - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] - prices[i]);
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= k; ++j) &#123;
+                buy[i][j] = <span class="hljs-built_in">max</span>(buy[i - <span class="hljs-number">1</span>][j], sell[i - <span class="hljs-number">1</span>][j] - prices[i]);
+                sell[i][j] = <span class="hljs-built_in">max</span>(sell[i - <span class="hljs-number">1</span>][j], buy[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>] + prices[i]);   
+            &#125;
+        &#125;
+
+        <span class="hljs-keyword">return</span> *<span class="hljs-built_in">max_element</span>(sell[n - <span class="hljs-number">1</span>].<span class="hljs-built_in">begin</span>(), sell[n - <span class="hljs-number">1</span>].<span class="hljs-built_in">end</span>());
+    &#125;
+&#125;;
+</code></pre></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../09/%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">
+        
+          面试题 正则表达式匹配
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+    <aside id="sidebar" class="outer">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">买卖股票问题</a>
+          </li>
+        
+          <li>
+            <a href="../../09/%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/">面试题 正则表达式匹配</a>
+          </li>
+        
+          <li>
+            <a href="../../08/%E7%AC%AC%E4%B8%80%E7%AF%87blog%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82022%E6%98%A5%E5%A4%A9/">第一篇blog——写在2022春天</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../../../../tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20px;">动态规划</a> <a href="../../../../tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a>
+    </div>
+  </div>
+
+  
+</aside>
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../../../archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="../../../../about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+<script src="../../../../js/clipboard.min.js"></script>
+<script src="../../../../js/jquery-1.4.3.min.js"></script>
+
+<script src="../../../../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+
+
+<script src="../../../../js/script.js"></script>
+
+
+
+
+
+
+<script>
+  MathJax = {
+    options: {
+      enableMenu: false
+    },
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    }
+  };
+</script>
+<!-- <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+    CommonHTML: {
+      linebreaks: false
+    }
+  });
+  </script> -->
+<script type="text/javascript" id="MathJax-script" async
+  src="../../../../mathjax/tex-chtml.js">
+</script>
+<!-- <script type="text/javascript"
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_CHTML">
+</script> -->
+
+
+
+  </div>
+</body>
+</html>
