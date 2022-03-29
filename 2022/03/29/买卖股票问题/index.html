@@ -124,10 +124,12 @@ dp[i][1] &amp;= max(dp[i-1][0] - price[i], dp[i-1][1]) \\
 \end{aligned}
 \right.
 $$</div><p>同样的<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>由于 <span class="markdown-them-math-inline">$dp[i][0], dp[i][1]$</span> 都是只与前一个状态有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>因此我们也可以使用临时变量对空间进行优化<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
-<div class="markdown-them-math-block">$$&amp;buy  = max (buy', sell' + price[i]) \\
-&amp;sell = max (buy'-price[i], sell') \\
-&amp;buy' = buy \\
-&amp;sell' = sell
+<div class="markdown-them-math-block">$$\begin{aligned} 
+buy  &amp;= max (buy', sell' + price[i]) \\
+sell &amp;= max (buy'-price[i], sell') \\
+buy' &amp;= buy \\
+sell' &amp;= sell \\
+\end{aligned}
 $$</div><h3 id="代码实现-1">代码实现</h3>
 <div class="highlight"><pre class="code"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
 <span class="hljs-keyword">public</span>:
@@ -180,16 +182,19 @@ $$</div><h3 id="代码实现-1">代码实现</h3>
 <li>如果 <span class="markdown-them-math-inline">$k = 2$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那么我们已经完成了交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不需要再操作<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></li>
 </ol>
 <p>综上<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>状态转移表达式可以被描述为以下形式<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
-<div class="markdown-them-math-block">$$profit[i][0][0] &amp;= profit[i-1][0][0] \\ 
-profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
-profit[i][0][2] &amp;= max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
-profit[i][1][0] &amp;= max(profit[i-1][1][0], profit[i-1][0][0]-price[i]) \\
-profit[i][1][1] &amp;= max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
+<div class="markdown-them-math-block">$$\begin{aligned} 
+profit[i][0][0] = profit[i-1][0][0] \\ 
+profit[i][0][1] = max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
+profit[i][0][2] = max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
+profit[i][1][0] = max(profit[i-1][1][0], profit[i-1][0][0]-price[i]) \\
+profit[i][1][1] = max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
+\end{aligned}
 $$</div><p>其中<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>第一行必然为 0<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>既不买入<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>也没有卖出<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 因此不用计算<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
 <p>第二<span class="bd-box"><h-char class="bd bd-beg"><h-inner>、</h-inner></h-char></span>三行可以看作为卖出操作</p>
 <p>第四<span class="bd-box"><h-char class="bd bd-beg"><h-inner>、</h-inner></h-char></span>五行可以看作为买入操作</p>
 <p>可以发现同样每一项 <span class="markdown-them-math-inline">$profit[i]$</span> 都只与前一项有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>因此也可以使用临时变量进行优化</p>
-<div class="markdown-them-math-block">$$sell1 &amp;= max(buy1'+price[i], sell1') \\
+<div class="markdown-them-math-block">$$\begin{aligned} 
+sell1 &amp;= max(buy1'+price[i], sell1') \\
 sell2 &amp;= max(buy2'+price[i], sell2') \\
 buy1 &amp;= max(buy1', -price[i]) \\
 buy2 &amp;= max(buy2', sell1'-price[i]) \\
@@ -197,13 +202,16 @@ sell1' &amp;= sell1 \\
 sell2' &amp;= sell2 \\
 buy1' &amp;= buy1 \\
 buy2' &amp;= buy2 \\
+\end{aligned}
 $$</div><p>但由于 <span class="markdown-them-math-inline">$buy1$</span> 只与自己上一时刻的状态有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>因此可以使用一个变量来更新其变化<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>而 <span class="markdown-them-math-inline">$sell1$</span> 除了与自身前一个状态有关以外<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>还与 <span class="markdown-them-math-inline">$buy1$</span> 的值有关<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>那需不需要因此为 <span class="markdown-them-math-inline">$buy1$</span> 开辟一个变量呢<span class="bd-box"><h-char class="bd bd-beg"><h-inner>？</h-inner></h-char></span></p>
 <p>答案是不用<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
 <p>我们不妨假设在第 <span class="markdown-them-math-inline">$i$</span> 天时<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> <span class="markdown-them-math-inline">$sell1$</span> 中的 <span class="markdown-them-math-inline">$buy1$</span> 取的是第 <span class="markdown-them-math-inline">$i$</span> 天的值<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>也就是说 <span class="markdown-them-math-inline">$buy1' &lt; -price[i]$</span> 并且 <span class="markdown-them-math-inline">$sell1$</span> 表示在 第 <span class="markdown-them-math-inline">$i$</span> 天将手中的股票进行第一次交易<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>那么此次的收益显然为0<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>是没有意义的<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不会影响结果<span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span>所以我们可以进一步对上述方程优化<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
-<div class="markdown-them-math-block">$$buy1 &amp;= max(buy1, -price[i]) \\
+<div class="markdown-them-math-block">$$\begin{aligned} 
+buy1 &amp;= max(buy1, -price[i]) \\
 sell1 &amp;= max(buy1+price[i], sell1) \\
 buy2 &amp;= max(buy2, sell1-price[i]) \\
 sell2 &amp;= max(buy2+price[i], sell2) \\
+\end{aligned}
 $$</div><h3 id="代码实现-2">代码实现</h3>
 <div class="highlight"><pre class="code"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
 <span class="hljs-keyword">public</span>:
@@ -250,15 +258,18 @@ $$</div><h3 id="代码实现-2">代码实现</h3>
 </ol>
 </blockquote>
 <p>根据以上<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>当k=3可推出<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
-<div class="markdown-them-math-block">$$profit[i][0][0] &amp;= profit[i-1][0][0] \\ 
+<div class="markdown-them-math-block">$$\begin{aligned} 
+profit[i][0][0] &amp;= profit[i-1][0][0] \\ 
 profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
 profit[i][0][2] &amp;= max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
 profit[i][0][3] &amp;= max(profit[i-1][1][2] + price[i], profit[i-1][0][3]) \\
 profit[i][1][0] &amp;= max(profit[i-1][1][0], profit[i-1][0][0]-price[i]) \\
 profit[i][1][1] &amp;= max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
 profit[i][1][2] &amp;= max(profit[i-1][1][2], profit[i-1][0][2]-price[i]) \\
+\end{aligned}
 $$</div><p>k = 4<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span></p>
-<div class="markdown-them-math-block">$$profit[i][0][0] &amp;= profit[i-1][0][0] \\ 
+<div class="markdown-them-math-block">$$\begin{aligned} 
+profit[i][0][0] &amp;= profit[i-1][0][0] \\ 
 profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
 profit[i][0][2] &amp;= max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
 profit[i][0][3] &amp;= max(profit[i-1][1][2] + price[i], profit[i-1][0][3]) \\
@@ -267,8 +278,10 @@ profit[i][1][0] &amp;= max(profit[i-1][1][0], profit[i-1][0][0]-price[i]) \\
 profit[i][1][1] &amp;= max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
 profit[i][1][2] &amp;= max(profit[i-1][1][2], profit[i-1][0][2]-price[i]) \\
 profit[i][1][3] &amp;= max(profit[i-1][1][3], profit[i-1][0][3]-price[i]) \\
+\end{aligned}
 $$</div><p>k = n:</p>
-<div class="markdown-them-math-block">$$profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
+<div class="markdown-them-math-block">$$\begin{aligned} 
+profit[i][0][1] &amp;= max(profit[i-1][1][0] + price[i], profit[i-1][0][1]) \\
 profit[i][0][2] &amp;= max(profit[i-1][1][1] + price[i], profit[i-1][0][2]) \\
 profit[i][0][3] &amp;= max(profit[i-1][1][2] + price[i], profit[i-1][0][3]) \\
 ... \\
@@ -281,11 +294,14 @@ profit[i][1][1] &amp;= max(profit[i-1][1][1], profit[i-1][0][1]-price[i]) \\
 profit[i][1][2] &amp;= max(profit[i-1][1][2], profit[i-1][0][2]-price[i]) \\
 ... \\
 profit[i][1][n-1] &amp;= max(profit[i-1][1][n-1], profit[i-1][0][n-1]-price[i]) \\
+\end{aligned}
 $$</div><p>根据规律<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span>不妨称上面一半的变量为 <span class="markdown-them-math-inline">$sell[i][j]$</span> <span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 下面一半的代码为 <span class="markdown-them-math-inline">$buy[i][j]$</span> <span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>首先被 <span class="markdown-them-math-inline">$i$</span> 标定天数<span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 其次被 <span class="markdown-them-math-inline">$j$</span> 标定交易次数<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char></span></p>
 <p>记 前 <span class="markdown-them-math-inline">$i$</span> 天 卖了 <span class="markdown-them-math-inline">$j$</span>  次 受伤不持有股票的最大利润为 <span class="markdown-them-math-inline">$sell[i][j]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>，</h-inner></h-char></span> 前 <span class="markdown-them-math-inline">$i$</span> 天 卖了 <span class="markdown-them-math-inline">$j$</span>  次但手上持有股票 的最大利润为 <span class="markdown-them-math-inline">$buy[i][j]$</span><span class="bd-box"><h-char class="bd bd-beg"><h-inner>。</h-inner></h-char></span></p>
 <p>那么进一步可以得到:</p>
-<div class="markdown-them-math-block">$$buy[i][j] &amp;= max (buy[i-1][j], sell[i-1][j]-price[i]) \\
+<div class="markdown-them-math-block">$$\begin{aligned} 
+buy[i][j] &amp;= max (buy[i-1][j], sell[i-1][j]-price[i]) \\
 sell[i][j] &amp;= max (sell[i-1][j], buy[i-1][j-1]+price[i])
+\end{aligned}
 $$</div><h3 id="代码实现-3">代码实现</h3>
 <p>细节引自[leetcode](<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/solution/mai-mai-gu-piao-de-zui-jia-shi-ji-iv-by-8xtkp/">买卖股票的最佳时机 IV - 买卖股票的最佳时机 IV - 力扣<span class="bd-box"><h-char class="bd bd-end"><h-inner>（</h-inner></h-char></span>LeetCode<span class="bd-box"><h-char class="bd bd-beg"><h-inner>）</h-inner></h-char></span> (leetcode-cn.com)</a>)</p>
 <blockquote>
@@ -322,6 +338,9 @@ $$</div></blockquote>
     &#125;
 &#125;;
 </code></pre></div>
+<h3 id="复杂度分析-3">复杂度分析</h3>
+<p>时间复杂度<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>O(n)</p>
+<p>空间复杂度<span class="bd-box"><h-char class="bd bd-beg"><h-inner>：</h-inner></h-char></span>O(1)</p>
 
       
     </div>
